@@ -1,34 +1,80 @@
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.wrapper {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial;
 }
 
-.animate-slideUp {
-  animation: slideUp 0.3s ease-out;
+.title {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-/* Better touch targets for mobile */
-button, 
-[role="button"],
-input,
-select {
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
+.card {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Remove spinner from number inputs */
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px,1fr));
+  gap: 10px;
+  margin-bottom: 15px;
 }
-input[type=number] {
-  -moz-appearance: textfield;
-  appearance: textfield;
+
+input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.grid-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.factor-box {
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.factor-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.value {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.total-box {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.rate-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.cost-box {
+  background: #fff3cd;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
