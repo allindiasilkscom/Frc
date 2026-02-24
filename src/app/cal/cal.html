@@ -1,36 +1,308 @@
-<div class="wrapper">
-  <div class="form-card">
-
-    <h2>🌱 Plant Pot Soil Calculator</h2>
-
-    <div class="form-group">
-      <label>Pot Diameter (cm)</label>
-      <input type="number" [(ngModel)]="diameter">
+<div class="planter-calculator min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
+  <!-- Header with decorative element - Mobile app style -->
+  <div class="bg-gradient-to-r from-green-700 to-green-600 px-5 pt-12 pb-8 rounded-b-[32px] shadow-lg relative">
+    <div class="flex flex-col items-center">
+      <div class="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-full flex items-center justify-center mb-4 border-2 border-white/30 shadow-lg">
+        <i class="fas fa-seedling text-3xl text-white"></i>
+      </div>
+      <h1 class="text-white font-bold text-2xl mb-1 text-center">FRP Planter Cost Calculator</h1>
+      <p class="text-white/90 text-sm text-center">Calculate manufacturing cost for custom FRP planters</p>
     </div>
+  </div>
 
-    <div class="form-group">
-      <label>Pot Height (cm)</label>
-      <input type="number" [(ngModel)]="height">
+  <!-- Main calculator card - Floating card style -->
+  <div class="px-4 -mt-6 pb-6">
+    <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl p-5 border border-white/50">
+      
+      <!-- Shape Selection -->
+      <div class="mb-6">
+        <label class="flex items-center gap-2 text-green-700 font-semibold text-sm uppercase tracking-wide mb-3">
+          <i class="fas fa-shape text-green-500"></i>
+          Planter Type
+        </label>
+        <div class="grid grid-cols-2 gap-3">
+          <button type="button" 
+                  class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all active:scale-95"
+                  [class.border-green-600]="shape === 'round'"
+                  [class.bg-green-50]="shape === 'round'"
+                  [class.border-gray-200]="shape !== 'round'"
+                  [class.bg-white]="shape !== 'round'"
+                  (click)="shape = 'round'">
+            <i class="fas fa-circle text-2xl" [class.text-green-600]="shape === 'round'" [class.text-gray-400]="shape !== 'round'"></i>
+            <span class="text-sm font-medium" [class.text-green-700]="shape === 'round'" [class.text-gray-600]="shape !== 'round'">Round Planter</span>
+          </button>
+          <button type="button" 
+                  class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all active:scale-95"
+                  [class.border-green-600]="shape === 'square'"
+                  [class.bg-green-50]="shape === 'square'"
+                  [class.border-gray-200]="shape !== 'square'"
+                  [class.bg-white]="shape !== 'square'"
+                  (click)="shape = 'square'">
+            <i class="fas fa-square text-2xl" [class.text-green-600]="shape === 'square'" [class.text-gray-400]="shape !== 'square'"></i>
+            <span class="text-sm font-medium" [class.text-green-700]="shape === 'square'" [class.text-gray-600]="shape !== 'square'">Square Planter</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Unit Selection -->
+      <div class="mb-6">
+        <label class="flex items-center gap-2 text-green-700 font-semibold text-sm uppercase tracking-wide mb-3">
+          <i class="fas fa-ruler text-green-500"></i>
+          Measurement Unit
+        </label>
+        <div class="grid grid-cols-3 gap-2">
+          <button type="button" 
+                  class="py-3 px-2 rounded-full border-2 flex items-center justify-center gap-1 transition-all active:scale-95 text-sm"
+                  [class.border-green-600]="unit === 'inch'"
+                  [class.bg-green-600]="unit === 'inch'"
+                  [class.text-white]="unit === 'inch'"
+                  [class.border-gray-200]="unit !== 'inch'"
+                  [class.bg-white]="unit !== 'inch'"
+                  [class.text-gray-700]="unit !== 'inch'"
+                  (click)="unit = 'inch'">
+            <i class="fas fa-inches text-sm"></i>
+            Inch
+          </button>
+          <button type="button" 
+                  class="py-3 px-2 rounded-full border-2 flex items-center justify-center gap-1 transition-all active:scale-95 text-sm"
+                  [class.border-green-600]="unit === 'cm'"
+                  [class.bg-green-600]="unit === 'cm'"
+                  [class.text-white]="unit === 'cm'"
+                  [class.border-gray-200]="unit !== 'cm'"
+                  [class.bg-white]="unit !== 'cm'"
+                  [class.text-gray-700]="unit !== 'cm'"
+                  (click)="unit = 'cm'">
+            <i class="fas fa-ruler text-sm"></i>
+            cm
+          </button>
+          <button type="button" 
+                  class="py-3 px-2 rounded-full border-2 flex items-center justify-center gap-1 transition-all active:scale-95 text-sm"
+                  [class.border-green-600]="unit === 'mm'"
+                  [class.bg-green-600]="unit === 'mm'"
+                  [class.text-white]="unit === 'mm'"
+                  [class.border-gray-200]="unit !== 'mm'"
+                  [class.bg-white]="unit !== 'mm'"
+                  [class.text-gray-700]="unit !== 'mm'"
+                  (click)="unit = 'mm'">
+            <i class="fas fa-ruler-vertical text-sm"></i>
+            mm
+          </button>
+        </div>
+      </div>
+
+      <!-- Round Planter Inputs -->
+      <div class="mb-6" *ngIf="shape === 'round'">
+        <label class="flex items-center gap-2 text-green-700 font-semibold text-sm uppercase tracking-wide mb-3">
+          <i class="fas fa-expand text-green-500"></i>
+          Round Planter Dimensions
+        </label>
+        <div class="space-y-4">
+          <div>
+            <label class="flex items-center justify-between text-sm text-gray-600 mb-1">
+              <span>Top Diameter</span>
+              <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-xs font-medium">{{unit}}</span>
+            </label>
+            <div class="relative">
+              <i class="fas fa-arrows-alt-h absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+              <input type="number" 
+                     [(ngModel)]="diameter" 
+                     placeholder="Enter diameter"
+                     min="0"
+                     step="any"
+                     inputmode="decimal"
+                     class="w-full pl-10 pr-4 py-4 border-2 border-gray-200 rounded-2xl text-base bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all">
+            </div>
+          </div>
+          <div>
+            <label class="flex items-center justify-between text-sm text-gray-600 mb-1">
+              <span>Height</span>
+              <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-xs font-medium">{{unit}}</span>
+            </label>
+            <div class="relative">
+              <i class="fas fa-arrows-alt-v absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+              <input type="number" 
+                     [(ngModel)]="height" 
+                     placeholder="Enter height"
+                     min="0"
+                     step="any"
+                     inputmode="decimal"
+                     class="w-full pl-10 pr-4 py-4 border-2 border-gray-200 rounded-2xl text-base bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Square Planter Inputs -->
+      <div class="mb-6" *ngIf="shape === 'square'">
+        <label class="flex items-center gap-2 text-green-700 font-semibold text-sm uppercase tracking-wide mb-3">
+          <i class="fas fa-cube text-green-500"></i>
+          Square Planter Dimensions
+        </label>
+        <div class="space-y-4">
+          <div>
+            <label class="flex items-center justify-between text-sm text-gray-600 mb-1">
+              <span>Length</span>
+              <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-xs font-medium">{{unit}}</span>
+            </label>
+            <div class="relative">
+              <i class="fas fa-arrow-right absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+              <input type="number" 
+                     [(ngModel)]="length" 
+                     placeholder="Length"
+                     min="0"
+                     step="any"
+                     inputmode="decimal"
+                     class="w-full pl-10 pr-4 py-4 border-2 border-gray-200 rounded-2xl text-base bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all">
+            </div>
+          </div>
+          <div>
+            <label class="flex items-center justify-between text-sm text-gray-600 mb-1">
+              <span>Width</span>
+              <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-xs font-medium">{{unit}}</span>
+            </label>
+            <div class="relative">
+              <i class="fas fa-arrow-left absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+              <input type="number" 
+                     [(ngModel)]="width" 
+                     placeholder="Width"
+                     min="0"
+                     step="any"
+                     inputmode="decimal"
+                     class="w-full pl-10 pr-4 py-4 border-2 border-gray-200 rounded-2xl text-base bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all">
+            </div>
+          </div>
+          <div>
+            <label class="flex items-center justify-between text-sm text-gray-600 mb-1">
+              <span>Height</span>
+              <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-xs font-medium">{{unit}}</span>
+            </label>
+            <div class="relative">
+              <i class="fas fa-arrows-alt-v absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+              <input type="number" 
+                     [(ngModel)]="height" 
+                     placeholder="Height"
+                     min="0"
+                     step="any"
+                     inputmode="decimal"
+                     class="w-full pl-10 pr-4 py-4 border-2 border-gray-200 rounded-2xl text-base bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quantity and Thickness -->
+      <div class="space-y-6 mb-6">
+        <!-- Quantity -->
+        <div>
+          <label class="flex items-center gap-2 text-green-700 font-semibold text-sm uppercase tracking-wide mb-3">
+            <i class="fas fa-cubes text-green-500"></i>
+            Quantity
+          </label>
+          <div class="flex items-center gap-2 bg-gray-100 p-1 rounded-3xl">
+            <button type="button" 
+                    class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm active:scale-95 transition-all"
+                    (click)="decrementQuantity()">
+              <i class="fas fa-minus text-green-600 text-2xl">-</i>
+            </button>
+            <input type="number" 
+                   [(ngModel)]="quantity" 
+                   min="1"
+                   step="1"
+                   inputmode="numeric"
+                   class="flex-1 text-center bg-transparent text-lg font-semibold text-gray-800 focus:outline-none">
+            <button type="button" 
+                    class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm active:scale-95 transition-all"
+                    (click)="incrementQuantity()">
+              <i class="fas fa-plus text-green-600 text-2xl">+</i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Material Thickness -->
+        <div>
+          <label class="flex items-center gap-2 text-green-700 font-semibold text-sm uppercase tracking-wide mb-3">
+            <i class="fas fa-layer-group text-green-500"></i>
+            Material Thickness
+          </label>
+          <div class="relative">
+            <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-green-600 z-10"></i>
+            <select [(ngModel)]="rate" 
+                    class="w-full py-4 px-4 border-2 border-gray-200 rounded-2xl text-base bg-white appearance-none focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all">
+              <option [value]="2140">1.5 mm - Standard</option>
+              <option [value]="2640">2.5 mm - Medium</option>
+              <option [value]="2890">3.5 mm - Heavy</option>
+              <option [value]="3390">5.0 mm - Industrial</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-3 mb-6">
+        <button class="flex-1 bg-gradient-to-r from-green-600 to-green-500 text-white font-semibold py-4 px-4 rounded-2xl shadow-lg shadow-green-200 flex items-center justify-center gap-2 active:scale-95 transition-all" 
+                (click)="calculate()">
+          <i class="fas fa-calculator"></i>
+          Calculate
+        </button>
+        <button class="flex-1 bg-gray-100 text-gray-600 font-semibold py-4 px-4 rounded-2xl border-2 border-gray-200 flex items-center justify-center gap-2 active:scale-95 transition-all" 
+                (click)="clear()">
+          <i class="fas fa-undo-alt"></i>
+          Reset
+        </button>
+      </div>
+
+      <!-- Results Section -->
+      <div class="bg-green-50 rounded-2xl p-5 border-2 border-green-100 animate-slideUp" *ngIf="totalSqft > 0">
+        <div class="flex items-center gap-2 mb-4">
+          <i class="fas fa-chart-line text-green-600 text-xl"></i>
+          <h3 class="text-green-800 font-bold text-lg">Cost Breakdown</h3>
+        </div>
+        
+        <div class="space-y-3">
+          <!-- Total Area -->
+          <div class="bg-white rounded-xl p-4 flex justify-between items-center border border-gray-100">
+            <span class="text-gray-600 text-sm">Total Area</span>
+            <span class="text-green-700 font-bold text-lg">{{ totalSqft | number:'1.2-2' }} sq.ft</span>
+          </div>
+          
+          <!-- FRP Material Cost -->
+          <div class="bg-green-100 rounded-xl p-4 flex justify-between items-center border border-green-200">
+            <span class="text-green-800 text-sm font-medium">FRP Material Cost</span>
+            <span class="text-green-700 font-bold text-xl">₹ {{ totalCost | number:'1.0-0' }}</span>
+          </div>
+          
+          <!-- Die/Mold Cost -->
+          <div class="bg-white rounded-xl p-4 flex justify-between items-center border border-gray-100">
+            <span class="text-gray-600 text-sm">Die/Mold Cost</span>
+            <span class="text-green-700 font-bold text-lg">₹ {{ dieCost | number:'1.0-0' }}</span>
+          </div>
+          
+          <!-- Cost Per Piece -->
+          <div class="bg-green-700 rounded-xl p-4 flex justify-between items-center">
+            <span class="text-white text-sm font-medium">Cost Per Piece</span>
+            <span class="text-white font-bold text-2xl">₹ {{ perPieceCost | number:'1.0-0' }}</span>
+          </div>
+        </div>
+
+        <!-- Summary Card -->
+        <div class="mt-4 bg-amber-50 rounded-xl p-4 border border-amber-200 flex items-start gap-3" *ngIf="quantity > 0">
+          <i class="fas fa-info-circle text-amber-600 mt-0.5"></i>
+          <p class="text-amber-800 text-sm flex-1">
+            Total investment for {{ quantity }} unit{{ quantity > 1 ? 's' : '' }}: 
+            <strong class="text-amber-900 block text-base mt-1">₹ {{ (totalCost + dieCost) | number:'1.0-0' }}</strong>
+          </p>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="form-group">
-      <label>Soil Density (kg/cm³)</label>
-      <input type="number" [(ngModel)]="density">
+  <!-- Footer with tips -->
+  <div class="px-4 pb-6">
+    <div class="bg-white/30 backdrop-blur-sm rounded-2xl p-3">
+      <p class="text-green-800 text-xs text-center flex items-center justify-center gap-2">
+        <i class="fas fa-lightbulb text-amber-500"></i>
+        Larger quantities reduce per-piece cost by spreading die cost
+      </p>
     </div>
-
-    <div class="form-group">
-      <label>Number of Pots</label>
-      <input type="number" [(ngModel)]="quantity">
-    </div>
-
-    <div class="button-group">
-      <button (click)="calculate()">Calculate</button>
-      <button class="clear-btn" (click)="clear()">Reset</button>
-    </div>
-
-    <div class="result-box">
-      Total Soil Required: {{ result | number:'1.2-2' }} kg
-    </div>
-
   </div>
 </div>

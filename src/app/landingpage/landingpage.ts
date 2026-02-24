@@ -15,14 +15,18 @@ export class Landingpage {
   error: string = '';
 
   constructor(private router: Router) {}
- verifyPin() {
-    const correctPin = '1234';  // Change your PIN here
+verifyPin() {
+  const correctPin = '1234';
 
-    if (this.pin === correctPin) {
-      this.error = '';
-      this.router.navigate(['/formulapage']);   // ✅ Move to calculator
-    } else {
-      this.error = 'Invalid PIN';
-    }
+  if (this.pin === correctPin) {
+    this.error = '';
+
+    // Save login status
+    localStorage.setItem('pinVerified', 'true');
+
+    this.router.navigate(['/formulapage']);
+  } else {
+    this.error = 'Invalid PIN';
   }
+}
 }
