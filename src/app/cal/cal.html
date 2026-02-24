@@ -1,0 +1,36 @@
+<div class="wrapper">
+  <div class="form-card">
+
+    <h2>🌱 Plant Pot Soil Calculator</h2>
+
+    <div class="form-group">
+      <label>Pot Diameter (cm)</label>
+      <input type="number" [(ngModel)]="diameter">
+    </div>
+
+    <div class="form-group">
+      <label>Pot Height (cm)</label>
+      <input type="number" [(ngModel)]="height">
+    </div>
+
+    <div class="form-group">
+      <label>Soil Density (kg/cm³)</label>
+      <input type="number" [(ngModel)]="density">
+    </div>
+
+    <div class="form-group">
+      <label>Number of Pots</label>
+      <input type="number" [(ngModel)]="quantity">
+    </div>
+
+    <div class="button-group">
+      <button (click)="calculate()">Calculate</button>
+      <button class="clear-btn" (click)="clear()">Reset</button>
+    </div>
+
+    <div class="result-box">
+      Total Soil Required: {{ result | number:'1.2-2' }} kg
+    </div>
+
+  </div>
+</div>

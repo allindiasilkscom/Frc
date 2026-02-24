@@ -1,0 +1,19 @@
+<div class="wrapper">
+  <div class="pin-card">
+    <h2>Enter Your 4 Digit PIN</h2>
+
+    <input
+      type="password"
+      maxlength="4"
+      [(ngModel)]="pin"
+      placeholder="••••"
+      class="pin-input"
+    />
+
+    <button (click)="verifyPin()" class="verify-btn">
+      Verify
+    </button>
+
+    <p *ngIf="error" class="error-text">{{ error }}</p>
+  </div>
+</div>
